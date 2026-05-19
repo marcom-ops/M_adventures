@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M Adventures — Where To Next?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --dark: #141414;
+  --charcoal: #222222;
+  --green: #00a651;
+  --green-light: #33c275;
+  --green-dim: rgba(0,166,81,0.15);
+  --orange: #f7941d;
+  --orange-light: #ffa940;
+  --cream: #f5f0e8;
+  --warm-white: #faf8f4;
+  --teal: #3a7d7a;
+  --nav-h: 72px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h); z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(10,10,10,0.93);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,166,81,0.2);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em;
+  color: var(--cream); text-decoration: none;
+}
+.nav-logo span { color: var(--green); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(245,240,232,0.7);
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-cta {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #fff;
+  background: var(--green); border: none; padding: 10px 24px;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.2s, transform 0.2s; border-radius: 2px;
+}
+.nav-cta:hover { background: var(--green-light); transform: translateY(-1px); }
+
+/* ── HERO ── */
+#hero {
+  position: relative; height: 100vh; min-height: 700px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-color: #1a2e1a;
+  background-image: url('https://images.unsplash.com/photo-1506815444514-66f451b7e26b?auto=format&fit=crop&w=1920&q=85'), linear-gradient(160deg, #0d2b1a 0%, #1a3a2a 40%, #2a1a0a 100%);
+  background-size: cover; background-position: center;
+  transform: scale(1.08); transition: transform 8s ease-out;
+}
+.hero-bg.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.25) 40%, rgba(10,10,10,0.65) 80%, rgba(10,10,10,0.9) 100%);
+}
+.hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 0 24px; }
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--green);
+  margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 7rem); font-weight: 900;
+  line-height: 1.0; letter-spacing: -0.02em; color: var(--cream);
+  margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-title em { font-style: italic; color: var(--green); }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; line-height: 1.7;
+  color: rgba(245,240,232,0.85); max-width: 580px; margin: 0 auto 44px;
+  opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
+}
+.hero-btns {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.8s 0.9s forwards;
+}
+.btn-primary {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
+  background: var(--green); border: none; padding: 16px 36px;
+  cursor: pointer; text-decoration: none; transition: all 0.25s; border-radius: 2px; display: inline-block;
+}
+.btn-primary:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,166,81,0.35); }
+.btn-outline {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream);
+  background: transparent; border: 1px solid rgba(245,240,232,0.5);
+  padding: 16px 36px; cursor: pointer; text-decoration: none;
+  transition: all 0.25s; border-radius: 2px; display: inline-block;
+}
+.btn-outline:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+.scroll-indicator {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeIn 1s 1.5s forwards;
+}
+.scroll-indicator span {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,240,232,0.5);
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, rgba(0,166,81,0.8), transparent);
+  animation: scrollPulse 2s infinite;
+}
+
+/* ── MARQUEE ── */
+.marquee-wrap { background: var(--green); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 30s linear infinite; }
+.marquee-item {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #fff; padding: 0 32px;
+}
+.marquee-dot { color: rgba(255,255,255,0.45); padding: 0 4px; }
+
+/* ── SECTION COMMON ── */
+section { position: relative; }
+.section-label {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 900; line-height: 1.1; letter-spacing: -0.02em;
+}
+.section-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(245,240,232,0.7); max-width: 600px; }
+
+/* ── WHY US ── */
+#why { background: var(--dark); padding: 120px 48px; }
+.why-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.why-text .section-title { color: var(--cream); margin-bottom: 24px; }
+.why-text .section-sub { margin-bottom: 40px; }
+.why-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid rgba(0,166,81,0.4); color: var(--green);
+  padding: 8px 16px; border-radius: 100px;
+}
+.why-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.stat-box {
+  background: var(--charcoal); padding: 40px 32px; position: relative; overflow: hidden;
+}
+.stat-box::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: var(--green); opacity: 0; transition: opacity 0.3s;
+}
+.stat-box:hover::before { opacity: 1; }
+.stat-num {
+  font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900;
+  color: var(--green); line-height: 1; margin-bottom: 8px;
+}
+.stat-label {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 500;
+  color: rgba(245,240,232,0.6); letter-spacing: 0.05em;
+}
+
+/* ── EXPERIENCES GRID ── */
+#experiences { padding: 120px 48px; background: var(--black); }
+.exp-inner { max-width: 1200px; margin: 0 auto; }
+.exp-header { text-align: center; margin-bottom: 72px; }
+.exp-header .section-title { color: var(--cream); margin-bottom: 16px; }
+.exp-header .section-sub { margin: 0 auto; }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.exp-card { position: relative; height: 600px; overflow: hidden; cursor: pointer; text-decoration: none; }
+.exp-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.7s ease; }
+.exp-card:hover .exp-card-bg { transform: scale(1.05); }
+.exp-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.3) 60%, transparent 100%);
+  transition: background 0.4s;
+}
+.exp-card:hover .exp-card-overlay {
+  background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.5) 60%, rgba(10,10,10,0.1) 100%);
+}
+.exp-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 48px; }
+.exp-tag {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;
+}
+.exp-card-title {
+  font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900;
+  color: var(--cream); line-height: 1.1; margin-bottom: 8px;
+}
+.exp-card-subtitle { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--green); margin-bottom: 16px; }
+.exp-card-desc {
+  font-size: 0.9rem; line-height: 1.65; color: rgba(245,240,232,0.75);
+  margin-bottom: 28px; max-width: 420px;
+  transform: translateY(10px); opacity: 0; transition: all 0.4s;
+}
+.exp-card:hover .exp-card-desc { transform: translateY(0); opacity: 1; }
+
+/* ── ITALIAN ESCAPE ── */
+#italy { background: var(--warm-white); color: var(--black); }
+.italy-hero { position: relative; height: 80vh; min-height: 600px; overflow: hidden; }
+.italy-hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1515542622106-50b23e90c89a?auto=format&fit=crop&w=1920&q=85'), linear-gradient(135deg, #2a4a1a 0%, #8a5a2a 50%, #3a1a0a 100%);
+  background-size: cover; background-position: center 30%;
+}
+.italy-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,100,40,0.55) 0%, rgba(10,10,10,0.55) 100%);
+}
+.italy-hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 72px; max-width: 900px;
+}
+.italy-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--green-light); margin-bottom: 16px;
+}
+.italy-hero-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900; line-height: 1.0; color: #fff; margin-bottom: 12px;
+}
+.italy-hero-title em { color: var(--green-light); font-style: italic; }
+.italy-hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.3rem; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+.italy-tagline { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.75); max-width: 540px; }
+
+.content-section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+.dark-bg { background: var(--dark); color: var(--cream); }
+.dark-bg .section-title { color: var(--cream); }
+
+.activity-card {
+  background: var(--charcoal); padding: 36px 28px; border-radius: 4px;
+  position: relative; overflow: hidden; transition: transform 0.3s;
+}
+.activity-card:hover { transform: translateY(-4px); }
+.activity-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: var(--green); transform: scaleX(0); transition: transform 0.3s;
+}
+.activity-card:hover::after { transform: scaleX(1); }
+.activity-icon { font-size: 2rem; margin-bottom: 16px; }
+.activity-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--cream); margin-bottom: 8px;
+}
+.activity-desc { font-size: 0.85rem; line-height: 1.65; color: rgba(245,240,232,0.6); }
+
+.food-card { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
+.food-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.14); }
+.food-card-img { height: 220px; background-size: cover; background-position: center; }
+.food-card-body { padding: 24px; }
+.food-card-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+.food-card-desc { font-size: 0.85rem; line-height: 1.65; color: #666; }
+.food-card-tag {
+  display: inline-block; margin-top: 12px;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange);
+}
+
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testimonial-card { background: var(--charcoal); padding: 36px 32px; border-radius: 4px; }
+.testimonial-quote { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--green); line-height: 1; margin-bottom: -8px; opacity: 0.5; }
+.testimonial-text { font-size: 0.92rem; line-height: 1.75; color: rgba(245,240,232,0.85); font-style: italic; margin-bottom: 20px; }
+.testimonial-author { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+.testimonial-stars { color: var(--orange); font-size: 0.8rem; margin-bottom: 12px; }
+
+.pricing-card {
+  border: 1px solid rgba(0,166,81,0.2); border-radius: 4px; padding: 48px 40px;
+  text-align: center; position: relative; transition: border-color 0.3s, transform 0.3s;
+}
+.pricing-card:hover { border-color: var(--green); transform: translateY(-4px); }
+.pricing-card.featured { border-color: var(--green); background: var(--green-dim); }
+.pricing-label { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+.pricing-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+.pricing-price { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 4px; }
+.pricing-price sup { font-size: 1.5rem; vertical-align: super; }
+.pricing-period { font-size: 0.82rem; color: rgba(245,240,232,0.5); margin-bottom: 32px; }
+.pricing-features { list-style: none; text-align: left; margin-bottom: 36px; }
+.pricing-features li {
+  font-size: 0.85rem; color: rgba(245,240,232,0.75); padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 10px;
+}
+.pricing-features li::before { content: '✦'; color: var(--green); font-size: 0.6rem; flex-shrink: 0; }
+.featured-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--green); color: #fff;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px;
+}
+
+/* ── INDONESIA ── */
+#bali { background: var(--black); color: var(--cream); }
+.bali-hero { position: relative; height: 80vh; min-height: 600px; overflow: hidden; }
+.bali-hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1537953773345-d172ccf13cf4?auto=format&fit=crop&w=1920&q=85'), linear-gradient(135deg, #0a2a1a 0%, #1a4a2a 50%, #0a1a0a 100%);
+  background-size: cover; background-position: center;
+}
+.bali-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,80,40,0.6) 0%, rgba(10,10,10,0.65) 100%);
+}
+.bali-hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 72px; max-width: 900px;
+}
+.bali-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--green-light); margin-bottom: 16px;
+}
+.bali-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; line-height: 1.0; color: #fff; margin-bottom: 12px; }
+.bali-hero-title em { color: var(--green-light); font-style: italic; }
+.bali-hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.3rem; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+
+/* ── COUNTERS ── */
+#counters { background: var(--charcoal); padding: 100px 48px; text-align: center; }
+.counters-inner { max-width: 1100px; margin: 0 auto; }
+.counters-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; color: var(--cream); margin-bottom: 12px; }
+.counters-sub { font-size: 0.95rem; color: rgba(245,240,232,0.5); margin-bottom: 64px; font-style: italic; }
+.counters-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.counter-item { background: var(--dark); padding: 48px 24px; }
+.counter-emoji { font-size: 2rem; margin-bottom: 16px; display: block; }
+.counter-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--green); line-height: 1; margin-bottom: 8px; }
+.counter-label { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.5); line-height: 1.5; }
+
+/* ── TRUST BADGES ── */
+#trust { background: var(--green); padding: 64px 48px; }
+.trust-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 32px; }
+.trust-heading { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #fff; max-width: 200px; line-height: 1.3; }
+.trust-badges-list { display: flex; gap: 24px; flex-wrap: wrap; }
+.trust-badge { background: rgba(255,255,255,0.15); border-radius: 4px; padding: 20px 24px; text-align: center; min-width: 140px; }
+.trust-badge-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.trust-badge-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; line-height: 1.4; }
+
+/* ── FAQ ── */
+#faq { background: var(--dark); padding: 120px 48px; }
+.faq-inner { max-width: 800px; margin: 0 auto; }
+.faq-header { text-align: center; margin-bottom: 64px; }
+.faq-header .section-title { color: var(--cream); margin-bottom: 12px; }
+.faq-item { border-bottom: 1px solid rgba(245,240,232,0.1); padding: 28px 0; }
+.faq-question {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px; cursor: pointer; display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 16px; user-select: none;
+}
+.faq-q-num { color: var(--green); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; flex-shrink: 0; }
+.faq-toggle { color: var(--green); font-size: 1.2rem; flex-shrink: 0; transition: transform 0.3s; }
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-answer {
+  font-size: 0.92rem; line-height: 1.8; color: rgba(245,240,232,0.65);
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s; opacity: 0;
+}
+.faq-item.open .faq-answer { max-height: 300px; opacity: 1; }
+.faq-answer em { color: var(--green); font-style: italic; }
+
+/* ── REVEAL ── */
+#reveal { background: var(--black); padding: 160px 48px; text-align: center; position: relative; overflow: hidden; }
+#reveal::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,166,81,0.07) 0%, transparent 70%);
+}
+.reveal-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+.reveal-whisper {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.3em; text-transform: uppercase; color: rgba(0,166,81,0.6); margin-bottom: 36px;
+}
+.reveal-line {
+  font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400; color: var(--cream); line-height: 1.5; margin-bottom: 20px;
+  opacity: 0; transform: translateY(20px); transition: all 0.7s ease;
+}
+.reveal-line.visible { opacity: 1; transform: translateY(0); }
+.reveal-line em { color: var(--green); font-style: italic; }
+.reveal-line strong { font-weight: 900; font-size: 1.2em; }
+.reveal-big {
+  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 900; color: var(--green); line-height: 1.0; margin: 40px 0;
+  opacity: 0; transform: scale(0.95); transition: all 0.8s ease;
+}
+.reveal-big.visible { opacity: 1; transform: scale(1); }
+.reveal-p {
+  font-size: 1.05rem; line-height: 1.85; color: rgba(245,240,232,0.75);
+  margin-bottom: 20px; opacity: 0; transition: opacity 0.7s ease;
+}
+.reveal-p.visible { opacity: 1; }
+.reveal-p em { color: var(--green); font-style: normal; font-weight: 500; }
+.reveal-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 56px; opacity: 0; transition: opacity 0.7s ease 0.3s; }
+.reveal-buttons.visible { opacity: 1; }
+.btn-yes {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #fff;
+  background: var(--green); border: none; padding: 20px 52px;
+  cursor: pointer; border-radius: 2px; transition: all 0.25s; text-decoration: none; display: inline-block;
+}
+.btn-yes:hover { background: var(--green-light); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,166,81,0.4); }
+.btn-maybe {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; font-weight: 500;
+  letter-spacing: 0.06em; color: rgba(245,240,232,0.5); background: transparent;
+  border: 1px solid rgba(245,240,232,0.2); padding: 20px 36px;
+  cursor: pointer; border-radius: 2px; transition: all 0.25s; text-decoration: none; display: inline-block;
+}
+.btn-maybe:hover { border-color: var(--orange); color: var(--orange); }
+
+/* ── MODAL ── */
+.modal-bg {
+  display: none; position: fixed; inset: 0; background: rgba(10,10,10,0.9);
+  z-index: 2000; align-items: center; justify-content: center; padding: 24px;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--dark); border: 1px solid rgba(0,166,81,0.3);
+  border-radius: 4px; padding: 60px; max-width: 540px; width: 100%; text-align: center; position: relative;
+}
+.modal-close {
+  position: absolute; top: 20px; right: 24px; font-size: 1.4rem;
+  color: rgba(245,240,232,0.4); cursor: pointer; background: none; border: none; transition: color 0.2s;
+}
+.modal-close:hover { color: var(--cream); }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--cream); margin-bottom: 8px; }
+.modal-sub { font-size: 0.9rem; color: rgba(245,240,232,0.5); font-style: italic; margin-bottom: 36px; }
+.modal-field { margin-bottom: 16px; text-align: left; }
+.modal-field label {
+  display: block; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-bottom: 8px;
+}
+.modal-field input, .modal-field select {
+  width: 100%; background: var(--charcoal); border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 2px; padding: 14px 16px; color: var(--cream);
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+}
+.modal-field input:focus, .modal-field select:focus { border-color: var(--green); }
+.modal-field select option { background: var(--charcoal); }
+.modal-submit {
+  width: 100%; margin-top: 24px; padding: 16px; background: var(--green); color: #fff; border: none;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.25s;
+}
+.modal-submit:hover { background: var(--green-light); }
+.modal-disclaimer { margin-top: 16px; font-size: 0.75rem; color: rgba(245,240,232,0.3); font-style: italic; }
+
+/* ── FOOTER ── */
+footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06); padding: 64px 48px 48px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--cream); margin-bottom: 16px; }
+.footer-logo span { color: var(--green); }
+.footer-tagline { font-size: 0.88rem; line-height: 1.7; color: rgba(245,240,232,0.4); max-width: 280px; }
+.footer-col h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 20px; }
+.footer-col ul { list-style: none; }
+.footer-col li { font-size: 0.85rem; color: rgba(245,240,232,0.45); margin-bottom: 10px; cursor: pointer; transition: color 0.2s; }
+.footer-col li:hover { color: var(--cream); }
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto; padding-top: 32px;
+  border-top: 1px solid rgba(245,240,232,0.06);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-copy { font-size: 0.78rem; color: rgba(245,240,232,0.3); }
+.footer-copy em { color: rgba(0,166,81,0.6); font-style: italic; }
+
+/* ── FLOATING CTA ── */
+.floating-cta { position: fixed; bottom: 32px; right: 32px; z-index: 900; opacity: 0; transform: translateY(20px); transition: all 0.4s; }
+.floating-cta.visible { opacity: 1; transform: translateY(0); }
+.floating-btn {
+  display: flex; align-items: center; gap: 10px; background: var(--green); color: #fff;
+  border: none; padding: 14px 24px; border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0,166,81,0.4); transition: all 0.25s; text-decoration: none;
+}
+.floating-btn:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,166,81,0.5); }
+.floating-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: pulse 2s infinite; }
+
+/* ── FADE-IN UTIL ── */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+
+.green-divider { width: 48px; height: 2px; background: var(--green); margin: 24px 0; }
+.green-divider.centered { margin: 24px auto; }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .why-inner, .two-col, .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+  .why-stats { grid-template-columns: 1fr 1fr; }
+  .three-col, .four-col { grid-template-columns: 1fr 1fr; }
+  .counters-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .content-section { padding: 72px 24px; }
+  #why, #experiences, #counters, #faq, #reveal { padding-left: 24px; padding-right: 24px; }
+  .italy-hero-content, .bali-hero-content { padding: 40px 24px; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .pricing-card { padding: 36px 24px; }
+}
+@media (max-width: 600px) {
+  .three-col, .four-col, .counters-grid, .exp-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">M<span>.</span>Adventures</a>
+  <ul class="nav-links">
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#italy">Italy</a></li>
+    <li><a href="#bali">Indonesia</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#" class="nav-cta" onclick="openModal(); return false;">Book Now</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2025 &nbsp;·&nbsp; Curated Adventures for the Discerning Wanderer</p>
+    <h1 class="hero-title">Life is short.<br><em>Your itinerary</em><br>shouldn't be.</h1>
+    <p class="hero-sub">Premium travel experiences engineered for people who prefer their holidays exceptionally well fed, genuinely active, and statistically unforgettable.</p>
+    <div class="hero-btns">
+      <a href="#italy" class="btn-primary">Explore Italy</a>
+      <a href="#bali" class="btn-outline">Explore Indonesia</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">Aperitivo Culture <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Natural Wine <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Cinque Terre Sunsets <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Bali Rice Terraces <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Michelin-Adjacent <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Wellness (Loosely Defined) <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Vineyard Afternoons <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Golden Hour Everything <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Scooter Rides at Sunset <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Suspiciously Good Chemistry <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Beach Runs &amp; Bad Decisions <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Candlelit Dinners <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Aperitivo Culture <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Natural Wine <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Cinque Terre Sunsets <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Bali Rice Terraces <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Michelin-Adjacent <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Wellness (Loosely Defined) <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Vineyard Afternoons <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Golden Hour Everything <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Scooter Rides at Sunset <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Suspiciously Good Chemistry <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Beach Runs &amp; Bad Decisions <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Candlelit Dinners <span class="marquee-dot">◆</span></span>
+  </div>
+</div>
+
+<!-- ── WHY US ── -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-text fade-in">
+      <p class="section-label">Why M Adventures</p>
+      <h2 class="section-title" style="color:var(--cream)">Travel that actually<br><em style="color:var(--green);font-style:italic">means something.</em></h2>
+      <div class="green-divider"></div>
+      <p class="section-sub">We don't do group tours with matching lanyards. We curate experiences for people with a suspiciously strong sense of adventure and an even stronger appetite for everything that makes life worth the jet lag.</p>
+      <div style="margin-top:40px" class="why-badges">
+        <span class="badge">Certified Excellent Taste™</span>
+        <span class="badge">Michelin-Adjacent™</span>
+        <span class="badge">Calorie-Neutral™*</span>
+        <span class="badge">UNESCO-Adjacent™</span>
+        <span class="badge">*We Don't Do Math</span>
+      </div>
+    </div>
+    <div class="why-stats fade-in fade-in-delay-2">
+      <div class="stat-box">
+        <div class="stat-num">94%</div>
+        <div class="stat-label">of guests immediately start planning their return trip</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">0</div>
+        <div class="stat-label">boring dinners. Ever. Not once.</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">★★★★★</div>
+        <div class="stat-label">Average guest satisfaction across all experiences</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Sunsets that exceeded all reasonable expectations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCES ── -->
+<section id="experiences">
+  <div class="exp-inner">
+    <div class="exp-header fade-in">
+      <p class="section-label">Signature Experiences</p>
+      <h2 class="section-title" style="color:var(--cream)">Two trips.<br><em style="color:var(--green);font-style:italic">Both unforgettable.</em></h2>
+      <div class="green-divider centered"></div>
+      <p class="section-sub">We offer exactly two experiences. Both are curated for two people with suspiciously good chemistry. Coincidence? Absolutely not.</p>
+    </div>
+    <div class="exp-grid">
+      <a href="#italy" class="exp-card">
+        <div class="exp-card-bg" style="background-image:url('https://images.unsplash.com/photo-1515542622106-50b23e90c89a?auto=format&fit=crop&w=1200&q=80'),linear-gradient(160deg,#3a6a1a 0%,#8a5a2a 60%,#1a0a0a 100%);background-color:#4a3a1a"></div>
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <p class="exp-tag">Signature Experience No. 1 &nbsp;·&nbsp; Italy</p>
+          <h3 class="exp-card-title">La Dolce<br>Detour</h3>
+          <p class="exp-card-subtitle">Italian Escape for Two</p>
+          <p class="exp-card-desc">Cardio, carbs, aperitivo, and unresolved romantic tension. Designed for people who flirt competitively over wine pairings.</p>
+        </div>
+      </a>
+      <a href="#bali" class="exp-card">
+        <div class="exp-card-bg" style="background-image:url('https://images.unsplash.com/photo-1518548419-4bef7f61a2b3?auto=format&fit=crop&w=1200&q=80'),linear-gradient(160deg,#0a2a1a 0%,#1a4a2a 60%,#0a1a2a 100%);background-color:#0a2a1a"></div>
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <p class="exp-tag">Signature Experience No. 2 &nbsp;·&nbsp; Indonesia</p>
+          <h3 class="exp-card-title">Salt, Sweat<br>& Bad Decisions</h3>
+          <p class="exp-card-subtitle">Indonesian Wellness Escape</p>
+          <p class="exp-card-desc">Find inner peace. Lose all ability to behave normally around each other. Wellness, but make it emotionally complicated.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     ITALIAN ESCAPE
+══════════════════════════════ -->
+<section id="italy">
+  <div class="italy-hero">
+    <div class="italy-hero-bg"></div>
+    <div class="italy-hero-overlay"></div>
+    <div class="italy-hero-content">
+      <p class="italy-eyebrow">Signature Experience No. 1 &nbsp;·&nbsp; Southern Italy &amp; Amalfi Coast</p>
+      <h2 class="italy-hero-title">La Dolce<br><em>Detour</em></h2>
+      <p class="italy-hero-sub">"Somewhere between a wellness retreat and a very attractive mistake."</p>
+      <p class="italy-tagline">An 8-day escape through coastal Italy, vineyard-dotted hillsides, and the warm amber light of evenings that last too long and feel too good. Emotionally irresponsible, but exceptionally well fed.</p>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div style="background:var(--warm-white); color:var(--black)">
+    <div class="content-section">
+      <div class="two-col">
+        <div class="fade-in">
+          <p class="section-label" style="color:var(--green)">The Concept</p>
+          <h3 class="section-title" style="color:var(--black);font-size:clamp(1.8rem,4vw,3rem)">Designed for two people<br>with suspiciously good<br>chemistry.</h3>
+          <div class="green-divider"></div>
+          <p style="font-size:0.95rem;line-height:1.85;color:#555;margin-bottom:20px">This is not a tour. This is a carefully constructed set of circumstances — aperitivo-fuelled evenings, morning hikes that end at vineyards, pasta-making classes where the flour-to-flirtation ratio is aggressively unbalanced.</p>
+          <p style="font-size:0.95rem;line-height:1.85;color:#555">Italy has a long and distinguished history of making perfectly sensible people make extremely enjoyable decisions. We have simply curated the optimal environment for this to occur.</p>
+        </div>
+        <div class="fade-in fade-in-delay-2">
+          <div style="background:#fff;border-radius:4px;padding:40px;box-shadow:0 4px 32px rgba(0,0,0,0.08)">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:20px">Trip at a Glance</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div style="border-bottom:1px solid #eee;padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--black)">8</div>
+                <div style="font-size:0.78rem;color:#888;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Days</div>
+              </div>
+              <div style="border-bottom:1px solid #eee;padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--black)">2</div>
+                <div style="font-size:0.78rem;color:#888;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">People (Min.)</div>
+              </div>
+              <div style="border-bottom:1px solid #eee;padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--black)">14+</div>
+                <div style="font-size:0.78rem;color:#888;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Aperitivos Minimum</div>
+              </div>
+              <div style="border-bottom:1px solid #eee;padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--black)">∞</div>
+                <div style="font-size:0.78rem;color:#888;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Olive Oil</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activities -->
+  <div class="dark-bg">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label">Activities</p>
+        <h3 class="section-title">Cardio, culture,<br><em style="color:var(--green);font-style:italic">and poor decisions.</em></h3>
+        <div class="green-divider centered"></div>
+        <p class="section-sub" style="margin:0 auto">Every activity is carefully selected to be genuinely wonderful and accidentally romantic.</p>
+      </div>
+      <div class="three-col">
+        <div class="activity-card fade-in">
+          <div class="activity-icon">🥾</div>
+          <div class="activity-title">Coastal Hiking</div>
+          <p class="activity-desc">Morning hikes along clifftop paths with views that make you briefly philosophical. The kind where you stop to catch your breath and realize it's not the altitude.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-icon">🍷</div>
+          <div class="activity-title">Vineyard Hopping</div>
+          <p class="activity-desc">Three vineyards, one afternoon, unlimited bad ideas. Each winemaker insists their natural wine "pairs best with good conversation." You'll see.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-icon">🍝</div>
+          <div class="activity-title">Pasta-Making Class</div>
+          <p class="activity-desc">A Nonna in a farmhouse kitchen. Flour on your hands. Someone's laughing. The pasta is an afterthought. The pappardelle is, objectively, the best you've ever eaten.</p>
+        </div>
+        <div class="activity-card fade-in">
+          <div class="activity-icon">🌅</div>
+          <div class="activity-title">Sunset Aperitivo</div>
+          <p class="activity-desc">The most dangerous hour of every Italian day. A Spritz. A terrace. The exact right light. M Adventures assumes no liability for what happens next.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-icon">🌊</div>
+          <div class="activity-title">Seaside Walks</div>
+          <p class="activity-desc">After too much wine. Because the Mediterranean doesn't care about your itinerary. Cobblestones, boat lights, the general sense that life is quite extraordinary.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-icon">🫒</div>
+          <div class="activity-title">Olive Oil Tasting</div>
+          <p class="activity-desc">Yes, this is a real thing. Yes, it's extraordinary. A centuries-old estate, early harvest oils, the overwhelming sensation that you've been doing salads completely wrong.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food -->
+  <div style="background:var(--warm-white);color:var(--black)">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label" style="color:var(--green)">Food &amp; Drink</p>
+        <h3 class="section-title" style="color:var(--black)">Olive oil treated<br><em style="color:var(--orange);font-style:italic">like a religion.</em></h3>
+        <div class="green-divider centered"></div>
+        <p class="section-sub" style="margin:0 auto;color:#666">We take food as seriously as we take everything else. Both are handled with the utmost care.</p>
+      </div>
+      <div class="four-col">
+        <div class="food-card fade-in">
+          <div class="food-card-img" style="background-color:#8a4a2a;background-image:url('https://images.unsplash.com/photo-1555396273-0e856f9e5a31?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="food-card-body">
+            <h4 class="food-card-title">Tiny Trattorias</h4>
+            <p class="food-card-desc">No menu in English. No menu in Italian either, actually. The owner just feeds you. It is perfect every time.</p>
+            <span class="food-card-tag">⭐ No Stars. Better.</span>
+          </div>
+        </div>
+        <div class="food-card fade-in fade-in-delay-1">
+          <div class="food-card-img" style="background-color:#3a1a2a;background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="food-card-body">
+            <h4 class="food-card-title">Natural Wine</h4>
+            <p class="food-card-desc">Orange wine that tastes like a Mediterranean afternoon in a glass. The sommelier will explain it. You will nod. Then order another.</p>
+            <span class="food-card-tag">🍊 Aggressively Natural</span>
+          </div>
+        </div>
+        <div class="food-card fade-in fade-in-delay-2">
+          <div class="food-card-img" style="background-color:#2a4a1a;background-image:url('https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="food-card-body">
+            <h4 class="food-card-title">Vineyard Lunches</h4>
+            <p class="food-card-desc">Long tables. Estate wine. Prosciutto that made the journey entirely worth it. Three hours minimum. This is non-negotiable.</p>
+            <span class="food-card-tag">🌿 Suspiciously Long Lunch</span>
+          </div>
+        </div>
+        <div class="food-card fade-in fade-in-delay-3">
+          <div class="food-card-img" style="background-color:#1a1a2a;background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="food-card-body">
+            <h4 class="food-card-title">Candlelit Dinners</h4>
+            <p class="food-card-desc">A terrace. Candles. Seafood pasta. The implicit understanding that everything — the context, the light, the wine — has been doing most of the heavy lifting.</p>
+            <span class="food-card-tag">🕯️ Liability: Not Ours</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="dark-bg">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label">What Guests Say</p>
+        <h3 class="section-title">Completely real<br><em style="color:var(--green);font-style:italic">testimonials.</em></h3>
+        <div class="green-divider centered"></div>
+      </div>
+      <div class="testimonial-grid fade-in">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">I came for the wine. I left having questioned several major life decisions. The pasta was incredible. The aperitivo nearly destroyed me. 10/10 would make poor life choices again.</p>
+          <p class="testimonial-author">— Sofia R., Milan &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">trip: La Dolce Detour</em></p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">The hike was genuinely hard. The Spritz afterwards was genuinely necessary. My companion was, objectively, a liability to my ability to think clearly. Highly recommend.</p>
+          <p class="testimonial-author">— Anonymous &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">(very not anonymous)</em></p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">I came as a sensible adult with a structured itinerary and a good handle on my emotions. I left with olive oil in my bag and significantly fewer inhibitions. Would revisit immediately.</p>
+          <p class="testimonial-author">— M.M., London &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">future client?</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing -->
+  <div style="background:var(--black)">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:64px">
+        <p class="section-label">Investment</p>
+        <h3 class="section-title">Completely transparent<br><em style="color:var(--green);font-style:italic">fake pricing.</em></h3>
+        <div class="green-divider centered"></div>
+        <p class="section-sub" style="margin:0 auto">These numbers are illustrative. The experience is very real.</p>
+      </div>
+      <div class="three-col fade-in">
+        <div class="pricing-card">
+          <p class="pricing-label">The Responsible Option</p>
+          <p class="pricing-name">La Classica</p>
+          <div class="pricing-price"><sup>€</sup>3,800</div>
+          <p class="pricing-period">per person / 8 days</p>
+          <ul class="pricing-features">
+            <li>Boutique hotel, breakfast included</li>
+            <li>3 vineyard visits</li>
+            <li>Pasta-making class</li>
+            <li>Guided coastal hike</li>
+            <li>Daily aperitivo budget</li>
+            <li>1 candlelit dinner</li>
+          </ul>
+          <button class="btn-outline" onclick="openModal()" style="width:100%">Choose This</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="featured-badge">Most Popular</div>
+          <p class="pricing-label">The One We Recommend</p>
+          <p class="pricing-name">La Detour</p>
+          <div class="pricing-price"><sup>€</sup>5,200</div>
+          <p class="pricing-period">per person / 8 days</p>
+          <ul class="pricing-features">
+            <li>Cliff-top villa with sea view</li>
+            <li>Unlimited vineyard access</li>
+            <li>Private pasta class with Nonna</li>
+            <li>Sunrise coastal hike</li>
+            <li>Olive oil masterclass</li>
+            <li>3 candlelit dinners</li>
+            <li>Suspiciously good chemistry package</li>
+            <li>Everything sorted, beautifully</li>
+          </ul>
+          <button class="btn-primary" onclick="openModal()" style="width:100%">Obviously Choose This</button>
+        </div>
+        <div class="pricing-card">
+          <p class="pricing-label">For the Committed</p>
+          <p class="pricing-name">L'Irresponsabile</p>
+          <div class="pricing-price"><sup>€</sup>8,900</div>
+          <p class="pricing-period">per person / 8 days</p>
+          <ul class="pricing-features">
+            <li>Private villa, entire coast</li>
+            <li>Personal sommelier all week</li>
+            <li>Helicopter vineyard tour</li>
+            <li>Private chef, every meal</li>
+            <li>Michelin dinner, twice</li>
+            <li>Everything in La Detour</li>
+            <li>A driver who asks no questions</li>
+          </ul>
+          <button class="btn-outline" onclick="openModal()" style="width:100%">I Have No Regrets</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     INDONESIA
+══════════════════════════════ -->
+<section id="bali">
+  <div class="bali-hero">
+    <div class="bali-hero-bg"></div>
+    <div class="bali-hero-overlay"></div>
+    <div class="bali-hero-content">
+      <p class="bali-eyebrow">Signature Experience No. 2 &nbsp;·&nbsp; Bali &amp; Lombok, Indonesia</p>
+      <h2 class="bali-hero-title">Salt, Sweat<br>&amp; <em>Bad Decisions</em></h2>
+      <p class="bali-hero-sub">"Scientifically engineered tension between mindfulness and tequila."</p>
+      <p class="italy-tagline" style="color:rgba(255,255,255,0.75)">A 10-day tropical wellness escape where you become progressively more attractive and proportionally less emotionally responsible. The ocean helps. The coconuts help. The sunsets are irresponsible.</p>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div style="background:var(--dark);color:var(--cream)">
+    <div class="content-section">
+      <div class="two-col">
+        <div class="fade-in">
+          <p class="section-label">The Concept</p>
+          <h3 class="section-title" style="color:var(--cream);font-size:clamp(1.8rem,4vw,3rem)">Wellness.<br>But make it <em style="color:var(--green-light);font-style:italic">emotionally</em><br><em style="color:var(--green-light);font-style:italic">complicated.</em></h3>
+          <div class="green-divider"></div>
+          <p style="font-size:0.95rem;line-height:1.85;color:rgba(245,240,232,0.65);margin-bottom:20px">Bali does something to people. The light changes. The pace changes. The version of yourself that wears sensible shoes and goes to bed at a reasonable hour quietly stops working.</p>
+          <p style="font-size:0.95rem;line-height:1.85;color:rgba(245,240,232,0.65)">We've built an itinerary that honours both: genuine wellness (beach runs, waterfalls, ice baths) and the tropical reality that sunsets in Bali are designed specifically to cause problems.</p>
+        </div>
+        <div class="fade-in fade-in-delay-2">
+          <div style="background:var(--charcoal);border-radius:4px;padding:40px">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:20px">Trip at a Glance</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--cream)">10</div>
+                <div style="font-size:0.78rem;color:rgba(245,240,232,0.4);font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Days</div>
+              </div>
+              <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--cream)">2</div>
+                <div style="font-size:0.78rem;color:rgba(245,240,232,0.4);font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">People (Required)</div>
+              </div>
+              <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--cream)">∞</div>
+                <div style="font-size:0.78rem;color:rgba(245,240,232,0.4);font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Coconuts</div>
+              </div>
+              <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px">
+                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--cream)">0</div>
+                <div style="font-size:0.78rem;color:rgba(245,240,232,0.4);font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:0.1em">Shoes Required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activities -->
+  <div style="background:var(--black)">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label">Activities</p>
+        <h3 class="section-title">Sweat, sand,<br><em style="color:var(--green);font-style:italic">and questionable choices.</em></h3>
+        <div class="green-divider centered"></div>
+      </div>
+      <div class="three-col">
+        <div class="activity-card fade-in">
+          <div class="activity-icon">🏃</div>
+          <div class="activity-title">Beach Runs</div>
+          <p class="activity-desc">6am on the sand. The ocean is doing something unreasonable with the light. You're running and you don't even know why. Your companion is also running. Neither of you is looking at the sea.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-icon">🌊</div>
+          <div class="activity-title">Waterfall Hikes</div>
+          <p class="activity-desc">Jungle. Humidity. A waterfall that looks exactly like a screensaver and somehow better in person. You're soaked. You couldn't care less. This is peak life.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-icon">🧊</div>
+          <div class="activity-title">Ice Baths</div>
+          <p class="activity-desc">A wellness staple. Cold water, controlled breathing, someone nearby being extremely calm about the whole thing. The smugness afterwards is worth every second of the screaming.</p>
+        </div>
+        <div class="activity-card fade-in">
+          <div class="activity-icon">🛵</div>
+          <div class="activity-title">Scooter Rides</div>
+          <p class="activity-desc">Golden hour. A scooter. Rice paddies in every direction. The sensation that you've stepped directly into a film that's doing very well at independent festivals.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-icon">🌅</div>
+          <div class="activity-title">Barefoot Beach Dinners</div>
+          <p class="activity-desc">Sand underfoot. Grilled fish. The kind of candles that belong in a film. The ocean within earshot. You've been barefoot all day and you feel more like yourself than ever.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-icon">🎉</div>
+          <div class="activity-title">Beach Clubs</div>
+          <p class="activity-desc">We call it "mindful networking." It starts with a tropical cocktail and ends with dancing at something that wasn't on the itinerary. Both things are the itinerary.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food -->
+  <div class="dark-bg">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label">Food &amp; Drink</p>
+        <h3 class="section-title">Tequila pretending<br><em style="color:var(--green);font-style:italic">to be hydration.</em></h3>
+        <div class="green-divider centered"></div>
+      </div>
+      <div class="four-col">
+        <div class="activity-card fade-in" style="background:var(--dark)">
+          <div class="activity-icon">🐟</div>
+          <div class="activity-title">Grilled Fish</div>
+          <p class="activity-desc">Fresh catch. Open flame. The beach. Someone nearby who makes you forget you had a plan for the evening. The fish, notably, is excellent.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1" style="background:var(--dark)">
+          <div class="activity-icon">🥥</div>
+          <div class="activity-title">Coconut Everything</div>
+          <p class="activity-desc">Coffee with coconut milk. Water from an actual coconut. Smoothies assembled from things that grew near you. It's wellness. Or just breakfast. Both.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2" style="background:var(--dark)">
+          <div class="activity-icon">🍹</div>
+          <div class="activity-title">Tropical Cocktails</div>
+          <p class="activity-desc">The tequila is technically a lime juice delivery system. The lychee martini is technically a fruit serving. This is what we mean by wellness culture.</p>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-3" style="background:var(--dark)">
+          <div class="activity-icon">🌿</div>
+          <div class="activity-title">Fancy Wellness Cafés</div>
+          <p class="activity-desc">Acai bowls that cost more than a restaurant meal and taste like a revelation. Cold brew with oat milk served in a cup that costs more than your first car. Worth it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div style="background:var(--charcoal)">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <p class="section-label">What Guests Say</p>
+        <h3 class="section-title">Extremely credible<br><em style="color:var(--green);font-style:italic">feedback.</em></h3>
+      </div>
+      <div class="testimonial-grid fade-in">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">I went for a wellness retreat. I came back with a scooter tan, a strong opinion on natural wine, and a permanent inability to eat normal smoothie bowls. Life-changing. Also devastating. 5 stars.</p>
+          <p class="testimonial-author">— Lucia M., Barcelona &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">trip: Salt, Sweat &amp; Bad Decisions</em></p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">The ice bath was the second most frightening thing on this trip. The barefoot beach dinner was the first. My companion looked entirely too good in that light. No notes.</p>
+          <p class="testimonial-author">— Anonymous, again &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">(this is a pattern)</em></p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">Scientifically engineered tension between mindfulness and tequila. Those were the brochure words. I did not think they were literally accurate. They were literally accurate. Outstanding.</p>
+          <p class="testimonial-author">— T.W., London &nbsp;·&nbsp; <em style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(0,166,81,0.6);font-size:0.85rem">came for wellness, stayed for everything else</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bali Pricing -->
+  <div style="background:var(--dark)">
+    <div class="content-section">
+      <div class="fade-in" style="text-align:center;margin-bottom:64px">
+        <p class="section-label">Investment</p>
+        <h3 class="section-title">Very real pricing<br><em style="color:var(--green);font-style:italic">for a very real trip.</em></h3>
+        <div class="green-divider centered"></div>
+      </div>
+      <div class="three-col fade-in">
+        <div class="pricing-card">
+          <p class="pricing-label">Wellness First</p>
+          <p class="pricing-name">The Detox</p>
+          <div class="pricing-price"><sup>$</sup>4,200</div>
+          <p class="pricing-period">per person / 10 days</p>
+          <ul class="pricing-features">
+            <li>Boutique villa, daily yoga</li>
+            <li>Guided waterfall hike</li>
+            <li>3 beach dinners</li>
+            <li>Ice bath sessions x4</li>
+            <li>Daily smoothie bowls</li>
+            <li>Scooter rental included</li>
+          </ul>
+          <button class="btn-outline" onclick="openModal()" style="width:100%">Responsible Choice</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="featured-badge">Recommended</div>
+          <p class="pricing-label">The Full Experience</p>
+          <p class="pricing-name">The Retox</p>
+          <div class="pricing-price"><sup>$</sup>6,500</div>
+          <p class="pricing-period">per person / 10 days</p>
+          <ul class="pricing-features">
+            <li>Clifftop infinity pool villa</li>
+            <li>Daily sunrise beach run</li>
+            <li>Waterfall &amp; jungle hikes</li>
+            <li>Ice bath + cold plunge spa</li>
+            <li>7 barefoot beach dinners</li>
+            <li>Beach club access all week</li>
+            <li>Scooter + driver on standby</li>
+            <li>Zero regrets guarantee*</li>
+          </ul>
+          <button class="btn-primary" onclick="openModal()" style="width:100%">This One. Obviously.</button>
+        </div>
+        <div class="pricing-card">
+          <p class="pricing-label">No Limits</p>
+          <p class="pricing-name">The Maximum</p>
+          <div class="pricing-price"><sup>$</sup>11,000</div>
+          <p class="pricing-period">per person / 10 days</p>
+          <ul class="pricing-features">
+            <li>Private villa, oceanfront</li>
+            <li>Personal trainer + chef</li>
+            <li>Helicopter rice terrace tour</li>
+            <li>Luxury yacht sunset cruise</li>
+            <li>Everything in The Retox</li>
+            <li>Concierge on demand</li>
+            <li>No questions asked policy</li>
+          </ul>
+          <button class="btn-outline" onclick="openModal()" style="width:100%">I'm Committed</button>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:0.75rem;color:rgba(245,240,232,0.25);font-style:italic">*Zero regrets guarantee covers the trip. Everything else is entirely on you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── COUNTERS ── -->
+<section id="counters">
+  <div class="counters-inner">
+    <div class="fade-in">
+      <h2 class="counters-title">The Numbers<br><em style="color:var(--green);font-style:italic">That Actually Matter</em></h2>
+      <p class="counters-sub">(All figures are real. Our accountants are not.)</p>
+    </div>
+    <div class="counters-grid">
+      <div class="counter-item fade-in">
+        <span class="counter-emoji">🍷</span>
+        <div class="counter-num" data-target="3847">0</div>
+        <div class="counter-label">Bottles of wine<br>responsibly consumed</div>
+      </div>
+      <div class="counter-item fade-in fade-in-delay-1">
+        <span class="counter-emoji">🤔</span>
+        <div class="counter-num" data-target="642">0</div>
+        <div class="counter-label">Questionable decisions<br>made in great locations</div>
+      </div>
+      <div class="counter-item fade-in fade-in-delay-2">
+        <span class="counter-emoji">🥂</span>
+        <div class="counter-num" data-target="9241">0</div>
+        <div class="counter-label">Aperitivos survived<br>(mostly)</div>
+      </div>
+      <div class="counter-item fade-in fade-in-delay-3">
+        <span class="counter-emoji">🌅</span>
+        <div class="counter-num" data-target="2156">0</div>
+        <div class="counter-label">Sunsets that exceeded<br>all reasonable expectations</div>
+      </div>
+      <div class="counter-item fade-in fade-in-delay-3">
+        <span class="counter-emoji">🧀</span>
+        <div class="counter-num" data-target="28">0</div>
+        <div class="counter-label">Budgets blown<br>entirely on cheese (€k)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BADGES ── -->
+<section id="trust">
+  <div class="trust-inner">
+    <h3 class="trust-heading">Certified by people who know things.</h3>
+    <div class="trust-badges-list">
+      <div class="trust-badge">
+        <span class="trust-badge-icon">🏆</span>
+        <div class="trust-badge-name">Award-Winning<br>Adventures™</div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-badge-icon">🌿</span>
+        <div class="trust-badge-name">UNESCO-<br>Adjacent™</div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-badge-icon">🔬</span>
+        <div class="trust-badge-name">Calorie-Neutral™<br>*We Don't Do Math</div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-badge-icon">⚡</span>
+        <div class="trust-badge-name">Michelin-<br>Adjacent™</div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-badge-icon">🫀</span>
+        <div class="trust-badge-name">Certified<br>Unforgettable™</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="faq-header fade-in">
+      <p class="section-label">FAQ</p>
+      <h2 class="section-title" style="color:var(--cream)">Frequently asked,<br><em style="color:var(--green);font-style:italic">honestly answered.</em></h2>
+      <div class="green-divider centered"></div>
+      <p class="section-sub" style="margin:0 auto;text-align:center">Questions we actually get. Answers we actually mean.</p>
+    </div>
+
+    <div class="faq-item fade-in" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        <span class="faq-q-num">01</span>
+        <span>Is M Adventures a real travel company?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Define <em>"real."</em> The locations are real. The experiences are real. The food is extraordinarily real. As for the company itself — it exists exactly as much as it needs to.</div>
+    </div>
+
+    <div class="faq-item fade-in" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        <span class="faq-q-num">02</span>
+        <span>Can I book solo?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">You could. But all our experiences are <em>technically designed for two people with suspiciously good chemistry.</em> The pricing assumes two people. The itinerary assumes two people. The pasta-making class will produce a quantity of pappardelle that is completely unreasonable for one person. We're just saying.</div>
+    </div>
+
+    <div class="faq-item fade-in" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        <span class="faq-q-num">03</span>
+        <span>Are the prices negotiable?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">The prices are <em>illustrative.</em> What are you actually asking?</div>
+    </div>
+
+    <div class="faq-item fade-in" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        <span class="faq-q-num">04</span>
+        <span>What should I pack?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">For Italy: something you'd feel comfortable wearing at a vineyard that costs €400/bottle. For Indonesia: as little as legally permitted. Both trips: <em>bring your capacity for adventure and your ability to make decisions you'll think about for a long time.</em> Leave behind: sensible footwear, strict itineraries, the part of yourself that plans too much.</div>
+    </div>
+
+    <div class="faq-item fade-in" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        <span class="faq-q-num">05</span>
+        <span>Is there a specific person this website is for?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">...keep scrolling.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE REVEAL ── -->
+<section id="reveal">
+  <div class="reveal-inner">
+    <p class="reveal-whisper" id="whisper">A note from the founder</p>
+    <p class="reveal-line" id="r1">Okay. Here's the thing.</p>
+    <p class="reveal-line" id="r2" style="transition-delay:0.15s">M Adventures is not, technically, <em>a travel company.</em></p>
+    <div class="reveal-big" id="r3">It's an invitation.</div>
+    <p class="reveal-line" id="r4">To you.</p>
+    <p class="reveal-line" id="r5" style="font-size:clamp(1rem,3vw,1.5rem);transition-delay:0.2s"><em>Yes, you.</em> The one reading this.</p>
+    <div style="width:60px;height:1px;background:rgba(0,166,81,0.3);margin:40px auto"></div>
+    <p class="reveal-p" id="r6">I built this entire website — the fake testimonials, the pricing tiers, all of it — to ask a relatively simple question in an extremely elaborate way.</p>
+    <p class="reveal-p" id="r7" style="transition-delay:0.1s">Because a text saying <em>"do you want to go to Italy?"</em> felt wildly insufficient for how much I'd actually like to go to Italy with you specifically.</p>
+    <p class="reveal-p" id="r8" style="transition-delay:0.2s">So I made a travel brand. With fake trust badges. And animated counters. And a sarcastic FAQ. Because apparently <em>this is how I function</em> when left unsupervised.</p>
+    <div style="width:60px;height:1px;background:rgba(0,166,81,0.3);margin:40px auto"></div>
+    <p class="reveal-line" id="r9" style="font-size:clamp(1.5rem,4vw,2.8rem);font-weight:700;transition-delay:0.1s">The aperitivos are real.<br>The vineyards are real.<br><em>The question is very real.</em></p>
+    <div style="margin-top:48px;margin-bottom:16px">
+      <p class="reveal-p" id="r10" style="font-size:1.15rem;color:rgba(245,240,232,0.9);transition-delay:0.3s">So. Italy or Indonesia? Both? Either? You pick.</p>
+      <p class="reveal-p" id="r11" style="font-size:0.9rem;transition-delay:0.4s"><em>No pressure. Just look at those aperitivos.</em></p>
+    </div>
+    <div class="reveal-buttons" id="revealBtns">
+      <a href="mailto:manuel.marcomini@gmail.com?subject=I'm%20In%20(Italy%20Please)&body=Yes.%20Let's%20go%20to%20Italy.%20This%20website%20is%20ridiculous%20and%20I%20love%20it." class="btn-yes">I'm In &nbsp;→</a>
+      <a href="mailto:manuel.marcomini@gmail.com?subject=Need%20More%20Wine%20Before%20Deciding&body=I%20need%20more%20information.%20Specifically%20in%20the%20form%20of%20wine." class="btn-maybe">I need more wine first</a>
+    </div>
+    <p style="margin-top:48px;font-size:0.78rem;color:rgba(245,240,232,0.2);font-style:italic">© 2025 M Adventures. Not a real company. A very real question.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">M<span>.</span>Adventures</div>
+      <p class="footer-tagline">Curated experiences for people who prefer their holidays genuinely active, exceptionally well fed, and statistically unforgettable. Not a real company. A real question.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Experiences</h4>
+      <ul>
+        <li onclick="document.getElementById('italy').scrollIntoView({behavior:'smooth'})">La Dolce Detour</li>
+        <li onclick="document.getElementById('bali').scrollIntoView({behavior:'smooth'})">Salt, Sweat & Bad Decisions</li>
+        <li>Coming: Patagonia (Probably)</li>
+        <li>Coming: Japan (Definitely)</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li>About M Adventures</li>
+        <li>Our "Philosophy"</li>
+        <li>The Fine Print</li>
+        <li>Terms & Feelings</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>Say Yes (Preferred)</li>
+        <li>Ask Questions</li>
+        <li>Negotiate Terms</li>
+        <li>manuel.marcomini@gmail.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 M Adventures — <em>Where real adventures begin with saying yes.</em></p>
+    <p class="footer-copy" style="font-style:italic">All testimonials are fictional. All experiences are very, very real.</p>
+  </div>
+</footer>
+
+<!-- ── FLOATING CTA ── -->
+<div class="floating-cta" id="floatingCta">
+  <a href="#reveal" class="floating-btn">
+    <div class="floating-dot"></div>
+    Say Yes
+  </a>
+</div>
+
+<!-- ── BOOKING MODAL ── -->
+<div class="modal-bg" id="modalBg" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3 class="modal-title">Book Your Adventure</h3>
+    <p class="modal-sub">Or, you know, just say yes. Either works.</p>
+    <div class="modal-field">
+      <label>Your Name</label>
+      <input type="text" placeholder="The important one">
+    </div>
+    <div class="modal-field">
+      <label>Email</label>
+      <input type="email" placeholder="So we can confirm">
+    </div>
+    <div class="modal-field">
+      <label>Choose Your Experience</label>
+      <select>
+        <option>La Dolce Detour — Italy</option>
+        <option>Salt, Sweat & Bad Decisions — Indonesia</option>
+        <option>Both. Obviously Both.</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Preferred Departure</label>
+      <input type="text" placeholder="Whenever you're ready">
+    </div>
+    <button class="modal-submit" onclick="submitModal()">Confirm Adventure</button>
+    <p class="modal-disclaimer">* This is a real email that goes somewhere real. No pressure. Zero commitment.</p>
+  </div>
+</div>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+
+window.addEventListener('load', () => { document.getElementById('heroBg').classList.add('loaded'); });
+
+const floatingCta = document.getElementById('floatingCta');
+window.addEventListener('scroll', () => { floatingCta.classList.toggle('visible', window.scrollY > 600); });
+
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+fadeEls.forEach(el => fadeObs.observe(el));
+
+function animateCounter(el, target, duration = 2000) {
+  const start = performance.now();
+  const update = (time) => {
+    const p = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString();
+    if (p < 1) requestAnimationFrame(update);
+    else el.textContent = target.toLocaleString();
+  };
+  requestAnimationFrame(update);
+}
+const counterEls = document.querySelectorAll('.counter-num[data-target]');
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCounter(e.target, parseInt(e.target.dataset.target)); counterObs.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObs.observe(el));
+
+const revealIds = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11','revealBtns'];
+const revealEls = revealIds.map(id => document.getElementById(id)).filter(Boolean);
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      revealEls.forEach((el, i) => { setTimeout(() => el.classList.add('visible'), i * 200); });
+      revealObs.disconnect();
+    }
+  });
+}, { threshold: 0.15 });
+const revealSection = document.getElementById('reveal');
+if (revealSection) revealObs.observe(revealSection);
+
+function toggleFaq(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(item => item.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+function openModal() { document.getElementById('modalBg').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalOnBg(e) { if (e.target === document.getElementById('modalBg')) closeModal(); }
+function submitModal() {
+  document.querySelector('.modal').innerHTML = `
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:3rem;margin-bottom:24px">✦</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--cream);margin-bottom:12px">You're In.</h3>
+      <p style="font-size:0.95rem;line-height:1.8;color:rgba(245,240,232,0.6);margin-bottom:32px">We'll be in touch. <em style="color:var(--green)">This is going to be exceptional.</em></p>
+      <button class="btn-primary" onclick="closeModal()" style="margin:0 auto">Close</button>
+    </div>`;
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const heroBg = document.getElementById('heroBg');
+  if (heroBg && scrolled < window.innerHeight) heroBg.style.transform = `translateY(${scrolled * 0.35}px) scale(1)`;
+}, { passive: true });
+</script>
+</body>
+</html>
