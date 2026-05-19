@@ -191,7 +191,7 @@ section { position: relative; }
 .exp-header { text-align: center; margin-bottom: 72px; }
 .exp-header .section-title { color: var(--cream); margin-bottom: 16px; }
 .exp-header .section-sub { margin: 0 auto; }
-.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.exp-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
 .exp-card { position: relative; height: 600px; overflow: hidden; cursor: pointer; text-decoration: none; }
 .exp-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.7s ease; }
 .exp-card:hover .exp-card-bg { transform: scale(1.05); }
@@ -543,7 +543,6 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
   <ul class="nav-links">
     <li><a href="#experiences">Experiences</a></li>
     <li><a href="#italy">Italy</a></li>
-    <li><a href="#bali">Indonesia</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <a href="#" class="nav-cta" onclick="openModal(); return false;">Book Now</a>
@@ -559,7 +558,7 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
     <p class="hero-sub">Premium travel experiences engineered for people who prefer their holidays exceptionally well fed, genuinely active, and statistically unforgettable.</p>
     <div class="hero-btns">
       <a href="#italy" class="btn-primary">Explore Italy</a>
-      <a href="#bali" class="btn-outline">Explore Indonesia</a>
+      <a href="#faq" class="btn-outline">Learn More</a>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -640,9 +639,9 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
   <div class="exp-inner">
     <div class="exp-header fade-in">
       <p class="section-label">Signature Experiences</p>
-      <h2 class="section-title" style="color:var(--cream)">Two trips.<br><em style="color:var(--green);font-style:italic">Both unforgettable.</em></h2>
+      <h2 class="section-title" style="color:var(--cream)">One trip.<br><em style="color:var(--green);font-style:italic">Completely unforgettable.</em></h2>
       <div class="green-divider centered"></div>
-      <p class="section-sub">We offer exactly two experiences. Both are curated for two people with suspiciously good chemistry. Coincidence? Absolutely not.</p>
+      <p class="section-sub">We offer one experience. Curated for two people with suspiciously good chemistry. Coincidence? Absolutely not.</p>
     </div>
     <div class="exp-grid">
       <a href="#italy" class="exp-card">
@@ -653,16 +652,6 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
           <h3 class="exp-card-title">La Dolce<br>Detour</h3>
           <p class="exp-card-subtitle">Italian Escape for Two</p>
           <p class="exp-card-desc">Cardio, carbs, aperitivo, and unresolved romantic tension. Designed for people who flirt competitively over wine pairings.</p>
-        </div>
-      </a>
-      <a href="#bali" class="exp-card">
-        <div class="exp-card-bg" style="background-image:url('img/card-bali.jpg');background-color:#0a2a1a"></div>
-        <div class="exp-card-overlay"></div>
-        <div class="exp-card-content">
-          <p class="exp-tag">Signature Experience No. 2 &nbsp;·&nbsp; Indonesia</p>
-          <h3 class="exp-card-title">Salt, Sweat<br>& Bad Decisions</h3>
-          <p class="exp-card-subtitle">Indonesian Wellness Escape</p>
-          <p class="exp-card-desc">Find inner peace. Lose all ability to behave normally around each other. Wellness, but make it emotionally complicated.</p>
         </div>
       </a>
     </div>
@@ -908,9 +897,9 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
 </section>
 
 <!-- ══════════════════════════════
-     INDONESIA
+     INDONESIA - REMOVED
 ══════════════════════════════ -->
-<section id="bali">
+<section id="bali" style="display:none">
   <div class="bali-hero">
     <div class="bali-hero-bg"></div>
     <div class="bali-hero-overlay"></div>
@@ -1242,19 +1231,11 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
       <div class="faq-answer">For Italy: something you'd feel comfortable wearing at a vineyard that costs €400/bottle. For Indonesia: as little as legally permitted. Both trips: <em>bring your capacity for adventure and your ability to make decisions you'll think about for a long time.</em> Leave behind: sensible footwear, strict itineraries, the part of yourself that plans too much.</div>
     </div>
 
-    <div class="faq-item fade-in" onclick="toggleFaq(this)">
-      <div class="faq-question">
-        <span class="faq-q-num">05</span>
-        <span>Is there a specific person this website is for?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">...keep scrolling.</div>
-    </div>
   </div>
 </section>
 
-<!-- ── THE REVEAL ── -->
-<section id="reveal">
+<!-- ── THE REVEAL - REMOVED ── -->
+<section id="reveal" style="display:none">
   <div class="reveal-inner">
     <p class="reveal-whisper" id="whisper">A note from the founder</p>
     <p class="reveal-line" id="r1">Okay. Here's the thing.</p>
@@ -1285,15 +1266,15 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
   <div class="footer-inner">
     <div>
       <div class="footer-logo">M<span>.</span>Adventures</div>
-      <p class="footer-tagline">Curated experiences for people who prefer their holidays genuinely active, exceptionally well fed, and statistically unforgettable. Not a real company. A real question.</p>
+      <p class="footer-tagline">Curated experiences for people who prefer their holidays genuinely active, exceptionally well fed, and statistically unforgettable.</p>
     </div>
     <div class="footer-col">
       <h4>Experiences</h4>
       <ul>
         <li onclick="document.getElementById('italy').scrollIntoView({behavior:'smooth'})">La Dolce Detour</li>
-        <li onclick="document.getElementById('bali').scrollIntoView({behavior:'smooth'})">Salt, Sweat & Bad Decisions</li>
         <li>Coming: Patagonia (Probably)</li>
         <li>Coming: Japan (Definitely)</li>
+        <li>Coming: Indonesia (Maybe)</li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1316,16 +1297,16 @@ footer { background: var(--black); border-top: 1px solid rgba(245,240,232,0.06);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2025 M Adventures — <em>Where real adventures begin with saying yes.</em></p>
+    <p class="footer-copy">© 2025 M Adventures — <em>Where real adventures begin.</em></p>
     <p class="footer-copy" style="font-style:italic">All testimonials are fictional. All experiences are very, very real.</p>
   </div>
 </footer>
 
 <!-- ── FLOATING CTA ── -->
 <div class="floating-cta" id="floatingCta">
-  <a href="#reveal" class="floating-btn">
+  <a href="#" onclick="openModal(); return false;" class="floating-btn">
     <div class="floating-dot"></div>
-    Say Yes
+    Book Now
   </a>
 </div>
 
